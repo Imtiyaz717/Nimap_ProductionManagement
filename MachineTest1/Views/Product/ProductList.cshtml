@@ -1,0 +1,210 @@
+﻿@model IEnumerable<MachineTest1.Models.CategoryProductVM>
+@using System.Web.UI.WebControls
+@using System.Data.SqlClient
+
+@{
+    ViewBag.Title = "ProductList";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .table  tr th {
+            text-align: center;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: aliceblue
+        }
+    </style>
+
+</head>
+<body>
+    @{
+if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">
+                    <b>An error occur</b>@ViewBag.ErrorMessage
+                </div>
+            }
+    }
+    <hr />
+    @{
+        var a = ViewBag.NotFound as string;
+    }
+    @if (!string.IsNullOrEmpty(a))
+    {
+        <div class="alert alert-danger">
+            @a
+        </div>
+    }
+    <h2 style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;text-align:center">Product List</h2>
+
+
+
+    <div class="container-fluid">
+        <div class="row">
+            @using (Html.BeginForm("ProductList", "Product", FormMethod.Post))
+            {
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.Label("Search", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBox("searchTxt", null, new { @class = "form-control", PlaceHolder = "Search your text here", Style = "max-width:100%" })
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"> Search</span></button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="text-align:center">
+
+                <table class="table table-bordered table-responsive table-hover">
+                    <tr>
+                        <th>
+
+                            @Html.ActionLink("Id", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Id", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })
+                        </th>
+                        <th>
+
+                            @Html.ActionLink("ProductID", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "ProductID", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })
+                        </th>
+                        <th>
+
+                            @Html.ActionLink("ProductName", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "ProductName", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })
+                        </th>
+                        <th>
+
+                            @Html.ActionLink("CategoryID", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "CategoryID", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })
+                        </th>
+                        <th>
+
+                            @Html.ActionLink("CategoryName", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "CategoryName", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })
+                        </th>
+                        <th><a href="#">Action</a></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProductID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CategoryID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CategoryName)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+
+
+            </div>
+            @{
+                double TotalPages = ViewBag.totalPages;
+
+
+
+
+                        <ul class="pagination">
+                            @if (ViewBag.PageNumber == 1)
+                            {
+                                <li>
+                                    @Html.ActionLink("Previous", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Id" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber })
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    @Html.ActionLink("Previous", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Id" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber - 1 })
+                                </li>
+                            }
+
+
+                            @for (int i = 1; i <= TotalPages; i++)
+                            {
+                                if (i == ViewBag.PageNumber)
+                                {
+                                    <li class="active">
+                                        @Html.ActionLink(i.ToString(), "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Id" : ViewBag.SortBy, PageNumber = i })
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        @Html.ActionLink(i.ToString(), "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Id" : ViewBag.SortBy, PageNumber = i })
+                                    </li>
+                                }
+
+                            }
+
+                            @if (ViewBag.PageNumber == TotalPages)
+                            {
+                                <li>
+                                    @Html.ActionLink("Next", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Id" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber })
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    @Html.ActionLink("Next", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Id" : ViewBag.SortBy, PageNumber = ViewBag.PageNumber + 1 })
+                                </li>
+                            }
+
+
+
+                        </ul>
+
+                }
+            
+        </div>
+
+    </div>
+    @*<div style="text-align:left">
+            @{
+                double TotalPages = ViewBag.totalPages;
+                for (int i = 1; i <= TotalPages; i++)
+                {
+
+                    <ul class="pagination">
+                        @if (i == ViewBag.PageNumber)
+                        {
+                            <li class="active">
+                                @Html.ActionLink(i.ToString(), "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Id" : ViewBag.SortBy, PageNumber = i })
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                @Html.ActionLink(i.ToString(), "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : ViewBag.SortOrder, SortBy = ViewBag.SortBy == null ? "Id" : ViewBag.SortBy, PageNumber = i })
+                            </li>
+                        }
+
+                    </ul>
+
+                }
+            }
+        </div>*@
+</body>
+</html>
+
