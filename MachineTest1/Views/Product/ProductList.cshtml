@@ -67,27 +67,27 @@ if (ViewBag.ErrorMessage != null)
 
                 <table class="table table-bordered table-responsive table-hover">
                     <tr>
-                        <th>
+                        <th style="width:10%">
 
                             @Html.ActionLink("Sr No.", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Sr No.", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })
                         </th>
-                        <th>
+                        <th style="width:10%">
 
                             @Html.ActionLink("ProductID", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "ProductID", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })
                         </th>
-                        <th>
+                        <th style="width:30%">
 
                             @Html.ActionLink("ProductName", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "ProductName", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })
                         </th>
-                        <th>
+                        <th style="width:10%">
 
                             @Html.ActionLink("CategoryID", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "CategoryID", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })
                         </th>
-                        <th>
+                        <th style="width:30%">
 
                             @Html.ActionLink("CategoryName", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "CategoryName", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })
                         </th>
-                        <th><a href="#">Action</a></th>
+                        <th style="width:10%"><a href="#">Action</a></th>
                     </tr>
 
                     @foreach (var item in Model)
