@@ -164,6 +164,7 @@ namespace MachineTest1.Controllers
                     }
                 }
 
+                
                 ViewBag.totalPages = Math.Ceiling(newlist.Count()/10.0);
                 ViewBag.PageNumber = PageNumber;
                 newlist = newlist.Skip((PageNumber - 1) * 10).Take(10).ToList();
@@ -181,183 +182,184 @@ namespace MachineTest1.Controllers
            
         }
 
-        [HttpPost]
-        public ActionResult ProductList(string searchTxt)
-        {
-            try
-            {
-                int i = 1;
-                var list = db.TblProductMaster.ToList();
-               
-                var newlist = list.Select(x => new CategoryProductVM()
-                {
-                    Id = i++,
+        //[HttpPost]
+        //public ActionResult ProductList(string searchTxt)
+        //{
+        //    try
+        //    {
+        //        int i = 1;
+        //        var list = db.TblProductMaster.ToList();
 
-                    ProductID = x.ProductId,
-                    ProductName = x.ProductName,
-                    CategoryID = x.CategoryId,
-                    CategoryName = x.CategoryMaster.CategoryName
-                });
+        //        var newlist = list.Select(x => new CategoryProductVM()
+        //        {
+        //            Id = i++,
 
-                
-                if (searchTxt != null)
-                {
-                   
-                    newlist = newlist.Where(x=>x.ProductName.Contains(searchTxt) || x.CategoryName.Contains(searchTxt)).ToList();
-                }
-                else
-                {
-                    ViewBag.NotFound = "Please Enter Correct Record!";
-                }
-                return View(newlist);
-                
-
-            }
-            catch (Exception ex)
-            {
-
-                ViewBag.ErrorMessage = ex.Message;
-                return View();
-            }
+        //            ProductID = x.ProductId,
+        //            ProductName = x.ProductName,
+        //            CategoryID = x.CategoryId,
+        //            CategoryName = x.CategoryMaster.CategoryName
+        //        });
 
 
-        }
 
-        public void ApplySorting(string SortOrder, string SortBy,CategoryProductVM a)
-        {
-            int i = 1;
-            var list = db.TblProductMaster.ToList();
-
-            var newlist = list.Select(x => new CategoryProductVM()
-            {
-                Id = i++,
-
-                ProductID = x.ProductId,
-                ProductName = x.ProductName,
-                CategoryID = x.CategoryId,
-                CategoryName = x.CategoryMaster.CategoryName
-            });
+        //        if (searchTxt != null)
+        //        {
+        //            var totalPages = Math.Ceiling(newlist.Count() / 10.0);
+        //            newlist = newlist.Where(x => x.ProductName.Contains(searchTxt) || x.CategoryName.Contains(searchTxt)).ToList();
+        //        }
+        //        else
+        //        {
+        //            ViewBag.NotFound = "Please Enter Correct Record!";
+        //        }
+        //        return View(newlist);
 
 
-            if (SortBy == "ProductName")
-            {
-                switch (SortOrder)
-                {
-                    case "Asc":
-                        {
-                            newlist = newlist.OrderBy(x => x.ProductName);
-                            break;
-                        }
-                    case "Desc":
-                        {
-                            newlist = newlist.OrderByDescending(x => x.ProductName);
-                            break;
-                        }
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                    default:
-                        {
-                            newlist = newlist.OrderBy(x => x.ProductName);
-                            break;
-                        }
+        //        ViewBag.ErrorMessage = ex.Message;
+        //        return View();
+        //    }
 
-                }
-            }
-            if (SortBy == "CategoryName")
-            {
-                switch (SortOrder)
-                {
-                    case "Asc":
-                        {
-                            newlist = newlist.OrderBy(x => x.CategoryName);
-                            break;
-                        }
-                    case "Desc":
-                        {
-                            newlist = newlist.OrderByDescending(x => x.CategoryName);
-                            break;
-                        }
 
-                    default:
-                        {
-                            newlist = newlist.OrderBy(x => x.CategoryName);
-                            break;
-                        }
+        //}
 
-                }
-            }
+        //public void ApplySorting(string SortOrder, string SortBy, List<CategoryProductVM> a)
+        //{
+        //    int i = 1;
+        //    var list = db.TblProductMaster.ToList();
 
-            if (SortBy == "Id")
-            {
-                switch (SortOrder)
-                {
-                    case "Asc":
-                        {
-                            newlist = newlist.OrderBy(x => x.Id);
-                            break;
-                        }
-                    case "Desc":
-                        {
-                            newlist = newlist.OrderByDescending(x => x.Id);
-                            break;
-                        }
+        //    var newlist = list.Select(x => new CategoryProductVM()
+        //    {
+        //        Id = i++,
 
-                    default:
-                        {
-                            newlist = newlist.OrderBy(x => x.Id);
-                            break;
-                        }
+        //        ProductID = x.ProductId,
+        //        ProductName = x.ProductName,
+        //        CategoryID = x.CategoryId,
+        //        CategoryName = x.CategoryMaster.CategoryName
+        //    });
 
-                }
-            }
-            if (SortBy == "ProductID")
-            {
-                switch (SortOrder)
-                {
-                    case "Asc":
-                        {
-                            newlist = newlist.OrderBy(x => x.ProductID);
-                            break;
-                        }
-                    case "Desc":
-                        {
-                            newlist = newlist.OrderByDescending(x => x.ProductID);
-                            break;
-                        }
 
-                    default:
-                        {
-                            newlist = newlist.OrderBy(x => x.ProductID);
-                            break;
-                        }
+        //    if (SortBy == "ProductName")
+        //    {
+        //        switch (SortOrder)
+        //        {
+        //            case "Asc":
+        //                {
+        //                    newlist = newlist.OrderBy(x => x.ProductName);
+        //                    break;
+        //                }
+        //            case "Desc":
+        //                {
+        //                    newlist = newlist.OrderByDescending(x => x.ProductName);
+        //                    break;
+        //                }
 
-                }
-            }
+        //            default:
+        //                {
+        //                    newlist = newlist.OrderBy(x => x.ProductName);
+        //                    break;
+        //                }
 
-            if (SortBy == "CategoryID")
-            {
-                switch (SortOrder)
-                {
-                    case "Asc":
-                        {
-                            newlist = newlist.OrderBy(x => x.CategoryID);
-                            break;
-                        }
-                    case "Desc":
-                        {
-                            newlist = newlist.OrderByDescending(x => x.CategoryID);
-                            break;
-                        }
+        //        }
+        //    }
+        //    if (SortBy == "CategoryName")
+        //    {
+        //        switch (SortOrder)
+        //        {
+        //            case "Asc":
+        //                {
+        //                    newlist = newlist.OrderBy(x => x.CategoryName);
+        //                    break;
+        //                }
+        //            case "Desc":
+        //                {
+        //                    newlist = newlist.OrderByDescending(x => x.CategoryName);
+        //                    break;
+        //                }
 
-                    default:
-                        {
-                            newlist = newlist.OrderBy(x => x.CategoryID);
-                            break;
-                        }
+        //            default:
+        //                {
+        //                    newlist = newlist.OrderBy(x => x.CategoryName);
+        //                    break;
+        //                }
 
-                }
-            }
-        }
-       
+        //        }
+        //    }
+
+        //    if (SortBy == "Id")
+        //    {
+        //        switch (SortOrder)
+        //        {
+        //            case "Asc":
+        //                {
+        //                    newlist = newlist.OrderBy(x => x.Id);
+        //                    break;
+        //                }
+        //            case "Desc":
+        //                {
+        //                    newlist = newlist.OrderByDescending(x => x.Id);
+        //                    break;
+        //                }
+
+        //            default:
+        //                {
+        //                    newlist = newlist.OrderBy(x => x.Id);
+        //                    break;
+        //                }
+
+        //        }
+        //    }
+        //    if (SortBy == "ProductID")
+        //    {
+        //        switch (SortOrder)
+        //        {
+        //            case "Asc":
+        //                {
+        //                    newlist = newlist.OrderBy(x => x.ProductID);
+        //                    break;
+        //                }
+        //            case "Desc":
+        //                {
+        //                    newlist = newlist.OrderByDescending(x => x.ProductID);
+        //                    break;
+        //                }
+
+        //            default:
+        //                {
+        //                    newlist = newlist.OrderBy(x => x.ProductID);
+        //                    break;
+        //                }
+
+        //        }
+        //    }
+
+        //    if (SortBy == "CategoryID")
+        //    {
+        //        switch (SortOrder)
+        //        {
+        //            case "Asc":
+        //                {
+        //                    newlist = newlist.OrderBy(x => x.CategoryID);
+        //                    break;
+        //                }
+        //            case "Desc":
+        //                {
+        //                    newlist = newlist.OrderByDescending(x => x.CategoryID);
+        //                    break;
+        //                }
+
+        //            default:
+        //                {
+        //                    newlist = newlist.OrderBy(x => x.CategoryID);
+        //                    break;
+        //                }
+
+        //        }
+        //    }
+        //}
+
 
         [HttpGet]
         public ActionResult AddProduct()

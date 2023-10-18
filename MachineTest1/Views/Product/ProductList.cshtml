@@ -46,7 +46,7 @@ if (ViewBag.ErrorMessage != null)
 
     <div class="container-fluid">
         <div class="row">
-            @using (Html.BeginForm("ProductList", "Product", FormMethod.Post))
+            @*@using (Html.BeginForm("ProductList", "Product", FormMethod.Post))
             {
 
                 <div class="form-horizontal">
@@ -60,7 +60,7 @@ if (ViewBag.ErrorMessage != null)
                         </div>
                     </div>
                 </div>
-            }
+            }*@
         </div>
         <div class="row">
             <div class="col-md-12" style="text-align:center">
@@ -69,7 +69,7 @@ if (ViewBag.ErrorMessage != null)
                     <tr>
                         <th>
 
-                            @Html.ActionLink("Id", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Id", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })
+                            @Html.ActionLink("Sr No.", "ProductList", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Sr No.", PageNumber = ViewBag.PageNumber == 0 ? 1 : ViewBag.PageNumber })
                         </th>
                         <th>
 
@@ -109,9 +109,13 @@ if (ViewBag.ErrorMessage != null)
                                 @Html.DisplayFor(modelItem => item.CategoryName)
                             </td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                                <a href="@Url.Action("UpdateProduct", "Product", new {id=item.ProductID})"><span class="glyphicon glyphicon-edit"></span></a> |
+                                <a href="@Url.Action("ProductDetails", "Product", new {id=item.ProductID})"><span class="glyphicon glyphicon-eye-open"></span></a> |
+                                <a href="@Url.Action("DeleteProduct", "Product", new {id=item.ProductID})"><span class="glyphicon glyphicon-trash"></span></a>
+
                             </td>
                         </tr>
                     }
